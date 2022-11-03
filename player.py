@@ -1,6 +1,7 @@
 import pygame as pg
 from helper import *
 from pygame.math import Vector2
+from setting import *
 
 class Player (pg.sprite.Sprite):
     # class for storing all the attributes related to the player
@@ -9,7 +10,8 @@ class Player (pg.sprite.Sprite):
         # define for innitilaze required variables
         super().__init__()
         self.sprite_sheet=SpriteSheet(sprite_sheet_pasth)
-        self.image=self.sprite_sheet.get_img(0,0,32,32)
+        self._load_images(self.sprite_sheet)
+        self.image=self.walk_right[2]
         self.rect=self.image.get_rect()
         self.rect.center=pos
     def update(self):
@@ -29,3 +31,25 @@ class Player (pg.sprite.Sprite):
             self.vector.x=1
         self.vector*=Player.speed
         self.rect.center+=self.vector
+        self._restrain()
+    def _load_images(self, sheet):
+        self.walk_right=[]
+        self.walk_left=[]
+        self.walk_backward=[]
+        self.walk_forward=[]
+        x=0
+        w,h=sheet.w//4,sheet.h//4
+        for x in range(0,w*4,w):
+            self.walk_forward.append(sheet.get_image(x,0,w,h))
+            self.walk_left.append(sheet.get_image(x,h,w,h))
+            self.walk_right.append(sheet.get_image(x,h*2,w,h))
+            self.walk_backward.append(sheet.get_image(x,h*3,w,h))
+    def _restrain(self):
+        if self.rect.right >= screen_width:
+            self.rect.right = screen_width
+        if self.rect.left <= 0:
+            self.rect.left = 0
+        if self.rect.bottom >= screen_height:
+            self.rect.bottom = screen_height
+        if self.rect.top <= 0:
+            self.rect.top = 0
