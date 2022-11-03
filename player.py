@@ -9,15 +9,20 @@ class Player (pg.sprite.Sprite):
     def __init__(self,sprite_sheet_pasth,pos):
         # define for innitilaze required variables
         super().__init__()
-        self.sprite_sheet=SpriteSheet(sprite_sheet_pasth)
+        self.sprite_sheet=SpriteSheet(sprite_sheet_pasth,4)
         self._load_images(self.sprite_sheet)
-        self.image=self.walk_right[2]
+        self.image=self.walk_right[0]
         self.rect=self.image.get_rect()
         self.rect.center=pos
+        self.last_update=0
+        self.frame=0
+        self.vector = Vector2(1, 0)
+        self.loop_len=4
     def update(self):
         # update the player position
-        self.move()
-    def move(self):
+        self._move()
+        self._animate()
+    def _move(self):
         # moves the player in the directory
         keys=pg.key.get_pressed()
         self.vector=Vector2(0,0)
@@ -53,3 +58,18 @@ class Player (pg.sprite.Sprite):
             self.rect.bottom = screen_height
         if self.rect.top <= 0:
             self.rect.top = 0
+    def _animate(self,frame_len=100):
+        now=pg.time.get_ticks()
+        self.animation_loop=[]
+        if now - self.last_update>frame_len and self.vector.length() > 0:
+            self.last_update=now
+            if self.vector.x > 0:
+                self.animation_loop=self.walk_right
+            if self.vector.x < 0:
+                self.animation_loop=self.walk_left
+            if self.vector.y > 0:
+                self.animation_loop=self.walk_forward
+            if self.vector.y < 0:
+                self.animation_loop=self.walk_backward
+            self.frame=(self.frame+1)%self.loop_len
+            self.image=self.animation_loop[self.frame]
