@@ -9,7 +9,7 @@ class Player (pg.sprite.Sprite):
     def __init__(self,sprite_sheet_pasth,pos):
         # define for innitilaze required variables
         super().__init__()
-        self.sprite_sheet=SpriteSheet(sprite_sheet_pasth,4)
+        self.sprite_sheet=SpriteSheet(sprite_sheet_pasth,2)
         self._load_images(self.sprite_sheet)
         self.image=self.walk_right[0]
         self.rect=self.image.get_rect()
