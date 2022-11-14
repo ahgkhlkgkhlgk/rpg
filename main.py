@@ -2,6 +2,7 @@ import pygame as pg
 from setting import *
 from player import Player as pl
 from helper import res
+from map import TileMap
 
 class Game:
     def __init__(self):
@@ -14,6 +15,7 @@ class Game:
         player = pl(res / 'sprite' / 't.png', (100, 100))
         self.all_sprites=pg.sprite.Group()
         self.all_sprites.add(player)
+        self.map=TileMap(csv_pasth=res/"map"/"map.csv",image_pass=res/"map"/"map.png")
     def _events(self):
         for event in pg.event.get():
             if event.type == pg.QUIT or (event.type == pg.KEYDOWN and event.type == pg.K_ESCAPE):
