@@ -15,7 +15,7 @@ class Game:
         player = pl(res / 'sprite' / 't.png', (100, 100))
         self.all_sprites=pg.sprite.Group()
         self.all_sprites.add(player)
-        self.map=TileMap(csv_pasth=res/"map"/"map.csv",image_pass=res/"map"/"map.png")
+        self.map=TileMap(self,csv_pasth=res/"map"/"map.csv",image_pass=res/"map"/"map.png")
     def _events(self):
         for event in pg.event.get():
             if event.type == pg.QUIT or (event.type == pg.KEYDOWN and event.type == pg.K_ESCAPE):
