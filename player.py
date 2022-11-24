@@ -6,10 +6,11 @@ from setting import *
 class Player (pg.sprite.Sprite):
     # class for storing all the attributes related to the player
     speed=5
-    def __init__(self,sprite_sheet_pasth,pos):
+    def __init__(self,game,sprite_sheet_pasth,pos):
         # define for innitilaze required variables
-        super().__init__()
-        self.sprite_sheet=SpriteSheet(sprite_sheet_pasth,2)
+        self._layer=Player_Layer
+        super().__init__(game.all_sprites)
+        self.sprite_sheet=SpriteSheet(sprite_sheet_pasth,1.5)
         self._load_images(self.sprite_sheet)
         self.image=self.walk_right[0]
         self.rect=self.image.get_rect()
@@ -25,18 +26,19 @@ class Player (pg.sprite.Sprite):
     def _move(self):
         # moves the player in the directory
         keys=pg.key.get_pressed()
+        step=2 if keys[pg.K_LSHIFT] else 1
         self.vector=Vector2(0,0)
         if keys[pg.K_w]:
-            self.vector.y=-1
+            self.vector.y=-1*step
         elif keys[pg.K_s]:
-            self.vector.y=1
+            self.vector.y=1*step
         elif keys[pg.K_a]:
-            self.vector.x=-1
+            self.vector.x=-1*step
         elif keys[pg.K_d]:
-            self.vector.x=1
+            self.vector.x=1*step
         self.vector*=Player.speed
         self.rect.center+=self.vector
-        self._restrain()
+        # self._restrain()
     def _load_images(self, sheet):
         self.walk_right=[]
         self.walk_left=[]
@@ -50,12 +52,12 @@ class Player (pg.sprite.Sprite):
             self.walk_right.append(sheet.get_image(x,h*2,w,h))
             self.walk_backward.append(sheet.get_image(x,h*3,w,h))
     def _restrain(self):
-        if self.rect.right >= screen_width:
-            self.rect.right = screen_width
+        if self.rect.right >= SCREEN_WIDTH:
+            self.rect.right = SCREEN_WIDTH
         if self.rect.left <= 0:
             self.rect.left = 0
-        if self.rect.bottom >= screen_height:
-            self.rect.bottom = screen_height
+        if self.rect.bottom >= SCREEN_HEIGHT:
+            self.rect.bottom = SCREEN_HEIGHT
         if self.rect.top <= 0:
             self.rect.top = 0
     def _animate(self,frame_len=100):

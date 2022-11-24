@@ -1,6 +1,8 @@
-screen_width=900
-screen_height=600
-game_title='rpg'
-fps=60
+SCREEN_WIDTH=800
+SCREEN_HEIGHT=600
+GAME_TITLE= 'rpg'
+FPS=60
 BGClr=(0,255,64)
-tile_size=16
+TILE_SIZE=32
+Player_Layer=2
+group_layer=1
