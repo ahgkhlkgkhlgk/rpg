@@ -6,8 +6,10 @@ from setting import *
 class Player (pg.sprite.Sprite):
     # class for storing all the attributes related to the player
     speed=5
-    def __init__(self,game,sprite_sheet_pasth,pos):
-        # define for innitilaze required variables
+    def __init__(self,game,sprite_sheet_pasth,pos,map_h,map_w):
+        # define for initilaze required variables
+        self.m_h=map_h
+        self.m_w=map_w
         self._layer=Player_Layer
         super().__init__(game.all_sprites)
         self.sprite_sheet=SpriteSheet(sprite_sheet_pasth,1.5)
@@ -23,6 +25,8 @@ class Player (pg.sprite.Sprite):
         # update the player position
         self._move()
         self._animate()
+        self._restrain()
+
     def _move(self):
         # moves the player in the directory
         keys=pg.key.get_pressed()
@@ -38,7 +42,6 @@ class Player (pg.sprite.Sprite):
             self.vector.x=1*step
         self.vector*=Player.speed
         self.rect.center+=self.vector
-        # self._restrain()
     def _load_images(self, sheet):
         self.walk_right=[]
         self.walk_left=[]
@@ -52,12 +55,12 @@ class Player (pg.sprite.Sprite):
             self.walk_right.append(sheet.get_image(x,h*2,w,h))
             self.walk_backward.append(sheet.get_image(x,h*3,w,h))
     def _restrain(self):
-        if self.rect.right >= SCREEN_WIDTH:
-            self.rect.right = SCREEN_WIDTH
+        if self.rect.right >= self.m_w:
+            self.rect.right = self.m_w
         if self.rect.left <= 0:
             self.rect.left = 0
-        if self.rect.bottom >= SCREEN_HEIGHT:
-            self.rect.bottom = SCREEN_HEIGHT
+        if self.rect.bottom >= self.m_h:
+            self.rect.bottom = self.m_h
         if self.rect.top <= 0:
             self.rect.top = 0
     def _animate(self,frame_len=100):

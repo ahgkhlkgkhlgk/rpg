@@ -7,6 +7,8 @@ class TileMap:
         data_list = self._csv_to_list(csv_pasth)
         img_list=self._pars_image(image_pass,spacing,image_tile_size)
         self._load_tiles(game,data_list,img_list)
+        self.width=len(data_list[0])*TILE_SIZE
+        self.height=len(data_list)*TILE_SIZE
     def _csv_to_list(self, csv_pasth):
         with open(csv_pasth)as f:
             reader=csv.reader(f)

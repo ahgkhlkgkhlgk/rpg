@@ -15,10 +15,10 @@ class Game:
         self.running = True
     def New_York(self):
         self.all_sprites=pg.sprite.LayeredUpdates()
-        self.player = pl(self,res / 'sprite' / 't.png', (100, 100))
-        # self.all_sprites.add(player)
-        self.camera=Camera()
         self.map=TileMap(self,csv_pasth=res/"map"/"map.csv",image_pass=res/"map"/"map.png",image_tile_size=16)
+        self.player = pl(self,res / 'sprite' / 't.png', (100, 100),self.map.height,self.map.width)
+        # self.all_sprites.add(player)
+        self.camera=Camera(self.map.width,self.map.height)
     def _events(self):
         for event in pg.event.get():
             if event.type == pg.QUIT or (event.type == pg.KEYDOWN and event.type == pg.K_ESCAPE):
