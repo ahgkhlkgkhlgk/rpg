@@ -8,6 +8,7 @@ class Player (pg.sprite.Sprite):
     speed=5
     def __init__(self,game,sprite_sheet_pasth,pos,map_h,map_w):
         # define for initilaze required variables
+        self.game = game
         self.m_h=map_h
         self.m_w=map_w
         self._layer=Player_Layer
@@ -17,6 +18,9 @@ class Player (pg.sprite.Sprite):
         self.image=self.walk_right[0]
         self.rect=self.image.get_rect()
         self.rect.center=pos
+        self.physical_body = pg.Rect(self.rect.x, self.rect.y,self.rect.width*0.5,self.rect.height/4)
+        self.physical_body.centerx=self.rect.centerx
+        self.physical_body.bottom=self.rect.bottom-5
         self.last_update=0
         self.frame=0
         self.vector = Vector2(1, 0)
@@ -26,7 +30,6 @@ class Player (pg.sprite.Sprite):
         self._move()
         self._animate()
         self._restrain()
-
     def _move(self):
         # moves the player in the directory
         keys=pg.key.get_pressed()
@@ -41,7 +44,9 @@ class Player (pg.sprite.Sprite):
         elif keys[pg.K_d]:
             self.vector.x=1*step
         self.vector*=Player.speed
-        self.rect.center+=self.vector
+        if not self._will_collide():
+            self.rect.center += self.vector
+            self.physical_body.center += self.vector
     def _load_images(self, sheet):
         self.walk_right=[]
         self.walk_left=[]
@@ -78,3 +83,9 @@ class Player (pg.sprite.Sprite):
                 self.animation_loop=self.walk_backward
             self.frame=(self.frame+1)%self.loop_len
             self.image=self.animation_loop[self.frame]
+    def _will_collide(self):
+        target_rect = self.physical_body.move(self.vector)
+        for tile in self.game.walls:
+            if target_rect.colliderect(tile.rect):
+                return True
+        return  False

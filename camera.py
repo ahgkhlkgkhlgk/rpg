@@ -6,9 +6,9 @@ class Camera:
         self.offset=(0,0)
         self.m_width=map_width
         self.m_height=map_height
-    def apply(self,entity):
+    def apply(self,entity_rect):
         # возвращает позицию игрока
-        return entity.rect.move(self.offset)
+        return entity_rect.move(self.offset)
     def update(self,target):
         # обновляет позицию карты(передвижение камеры)
         # target = спрайт за которой следит камера

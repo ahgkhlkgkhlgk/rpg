@@ -28,10 +28,11 @@ class Game:
         self.all_sprites.update()
         self.camera.update(self.player)
     def _draw(self):
-        self.screen.fill(BGClr)
+        # self.screen.fill(BGClr)
         # self.all_sprites.draw(surface=self.screen)
         for sprite in self.all_sprites:
-            self.screen.blit(sprite.image,self.camera.apply(entity=sprite))
+            self.screen.blit(sprite.image,self.camera.apply(sprite.rect))
+            # self.player_hitbox()
         pg.display.flip()
     def run(self):
         while self.running:
@@ -39,6 +40,10 @@ class Game:
             self._events()
             self._update()
             self._draw()
+    def player_hitbox(self):
+        pg.draw.rect(self.screen,(0,180,0),rect=self.camera.apply(self.player.rect))
+        self.screen.blit(self.player.image,self.camera.apply(self.player.rect))
+        pg.draw.rect(self.screen, (0, 0, 0), rect=self.camera.apply(self.player.physical_body))
 
 if __name__ == "__main__" :
     game=Game()
