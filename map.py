@@ -7,14 +7,15 @@ class TileMap:
              24,25,26,27,28,29,30,31,32,33,
              41,42,43,44,45,46,47,48,49,50,
              61,64,65,66,67,
-             68,80,
+             80,
              92,93,94,95,96,97,98,99,100,
              107,108,109,110,111,112,113,114,115,116,117,
-             119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135]
+             126,127,128,129,130,131,132,133,134,135]
+    NPC_ID=[119,120,121,122,123,124,125]
     def __init__(self,game,csv_pasth,image_tile_size,image_pass,spacing=0):
         data_list = self._csv_to_list(csv_pasth)
-        img_list=self._pars_image(image_pass,spacing,image_tile_size)
-        self._load_tiles(game,data_list,img_list)
+        self.img_list=self._pars_image(image_pass,spacing,image_tile_size)
+        self._load_tiles(game,data_list,self.img_list)
         self.width=len(data_list[0])*TILE_SIZE
         self.height=len(data_list)*TILE_SIZE
     def _csv_to_list(self, csv_pasth):

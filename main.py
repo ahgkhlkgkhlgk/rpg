@@ -5,6 +5,7 @@ from player import Player as pl
 from helper import res
 from map import TileMap
 from camera import *
+from npc import *
 
 class Game:
     def __init__(self):
@@ -20,6 +21,7 @@ class Game:
         self.player = pl(self,res / 'sprite' / 't.png', (100, 100),self.map.height,self.map.width)
         # self.all_sprites.add(player)
         self.camera=Camera(self.map.width,self.map.height)
+        self.npc=NPC(self,self.map.img_list[119],pos=(200,100))
     def _events(self):
         for event in pg.event.get():
             if event.type == pg.QUIT or (event.type == pg.KEYDOWN and event.type == pg.K_ESCAPE):
