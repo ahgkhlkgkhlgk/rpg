@@ -6,3 +6,4 @@ BGClr=(0,255,64)
 TILE_SIZE=32
 Player_Layer=2
 group_layer=1
+MassegeLayer=3
