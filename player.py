@@ -87,5 +87,6 @@ class Player (pg.sprite.Sprite):
         target_rect = self.physical_body.move(self.vector)
         for tile in self.game.walls:
             if target_rect.colliderect(tile.rect):
+                print(tile.rect.x,tile.rect.y)
                 return True
         return  False
